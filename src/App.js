@@ -17,12 +17,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CardList name="Chaitu">
-          {this.state.monsters.map((monster) => (
-            // key is neeeded for react to target the specific element to update it
-            <h1 key={monster.id}>{monster.name}</h1>
-          ))}
-        </CardList>
+        <CardList monsters={this.state.monsters} />
       </div>
     );
   }
