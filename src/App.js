@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import "./App.css";
 import { CardList } from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 class App extends Component {
   constructor() {
     // super() helps us with this by calling React.Component's constructor()
     super();
-    this.state = { monsters: [] };
+    this.state = { monsters: [], searchField: "" };
+    // this.handleChange = this.handleChange.bind(this);
   }
+
+  // handleChange(e) {
+  //   this.setState({ searchField: e.target.value });
+  // }
+  handleChange = (e) => this.setState({ searchField: e.target.value });
+
   componentDidMount() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
@@ -15,9 +23,18 @@ class App extends Component {
   }
   // render method comes built in with react.Component
   render() {
+    const { monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter((monster) =>
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );
     return (
       <div className="App">
-        <CardList monsters={this.state.monsters} />
+        <h1>Monsters Rolodex</h1>
+        <SearchBox
+          placeholder="Search Monsters"
+          handleChange={this.handleChange}
+        />
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
